@@ -1,0 +1,151 @@
+[5] pry(main)> Brewery.create name:"Brewdog", year:2007
+   (0.2ms)  begin transaction
+  SQL (3.8ms)  INSERT INTO "breweries" ("name", "year", "created_at", "updated_at") VALUES (?, ?, ?, ?)  [["name", "Brewdog"], ["year", 2007], ["created_at", "2017-01-26 17:33:25.241463"], ["updated_at", "2017-01-26 17:33:25.241463"]]
+   (52.4ms)  commit transaction
+=> #<Brewery:0x005587398ea8a8
+ id: 5,
+ name: "Brewdog",
+ year: 2007,
+ created_at: Thu, 26 Jan 2017 17:33:25 UTC +00:00,
+ updated_at: Thu, 26 Jan 2017 17:33:25 UTC +00:00>
+[6] pry(main)> b=Brewery.find_by(name:"Brewdog")
+  Brewery Load (0.6ms)  SELECT  "breweries".* FROM "breweries" WHERE "breweries"."name" = ? LIMIT 1  [["name", "Brewdog"]]
+=> #<Brewery:0x005587396a2ed8
+ id: 5,
+ name: "Brewdog",
+ year: 2007,
+ created_at: Thu, 26 Jan 2017 17:33:25 UTC +00:00,
+ updated_at: Thu, 26 Jan 2017 17:33:25 UTC +00:00>
+[7] pry(main)> b.Beer.create name:"Punk IPA" style:"IPA"
+SyntaxError: unexpected tIDENTIFIER, expecting end-of-input
+b.Beer.create name:"Punk IPA" style:"IPA"
+                                   ^
+[7] pry(main)> b.beers.create name:"Punk IPA" style:"IPA"
+SyntaxError: unexpected tIDENTIFIER, expecting end-of-input
+b.beers.create name:"Punk IPA" style:"IPA"
+                                    ^
+[7] pry(main)> b.beers.create name:"Punk IPA", style:"IPA"
+   (0.2ms)  begin transaction
+  SQL (0.7ms)  INSERT INTO "beers" ("name", "style", "brewery_id", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?)  [["name", "Punk IPA"], ["style", "IPA"], ["brewery_id", 5], ["created_at", "2017-01-26 17:47:10.577149"], ["updated_at", "2017-01-26 17:47:10.577149"]]
+   (46.1ms)  commit transaction
+=> #<Beer:0x00558739481e60
+ id: 14,
+ name: "Punk IPA",
+ style: "IPA",
+ brewery_id: 5,
+ created_at: Thu, 26 Jan 2017 17:47:10 UTC +00:00,
+ updated_at: Thu, 26 Jan 2017 17:47:10 UTC +00:00>
+[8] pry(main)> olut=Beer.new name:"Nanny State", style:"lowalcoholic"
+=> #<Beer:0x0055873937c0d8
+ id: nil,
+ name: "Nanny State",
+ style: "lowalcoholic",
+ brewery_id: nil,
+ created_at: nil,
+ updated_at: nil>
+[9] pry(main)> b.beers << olut
+   (0.2ms)  begin transaction
+  SQL (0.4ms)  INSERT INTO "beers" ("name", "style", "brewery_id", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?)  [["name", "Nanny State"], ["style", "lowalcoholic"], ["brewery_id", 5], ["created_at", "2017-01-26 18:30:48.739561"], ["updated_at", "2017-01-26 18:30:48.739561"]]
+   (44.9ms)  commit transaction
+  Beer Load (0.5ms)  SELECT "beers".* FROM "beers" WHERE "beers"."brewery_id" = ?  [["brewery_id", 5]]
+=> [#<Beer:0x00558739481e60
+  id: 14,
+  name: "Punk IPA",
+  style: "IPA",
+  brewery_id: 5,
+  created_at: Thu, 26 Jan 2017 17:47:10 UTC +00:00,
+  updated_at: Thu, 26 Jan 2017 17:47:10 UTC +00:00>,
+ #<Beer:0x0055873937c0d8
+  id: 15,
+  name: "Nanny State",
+  style: "lowalcoholic",
+  brewery_id: 5,
+  created_at: Thu, 26 Jan 2017 18:30:48 UTC +00:00,
+  updated_at: Thu, 26 Jan 2017 18:30:48 UTC +00:00>]
+[10] pry(main)> olut
+=> #<Beer:0x0055873937c0d8
+ id: 15,
+ name: "Nanny State",
+ style: "lowalcoholic",
+ brewery_id: 5,
+ created_at: Thu, 26 Jan 2017 18:30:48 UTC +00:00,
+ updated_at: Thu, 26 Jan 2017 18:30:48 UTC +00:00>
+[11] pry(main)> olut.ratings.create score:8
+   (0.3ms)  begin transaction
+  SQL (0.6ms)  INSERT INTO "ratings" ("score", "beer_id", "created_at", "updated_at") VALUES (?, ?, ?, ?)  [["score", 8], ["beer_id", 15], ["created_at", "2017-01-26 18:33:35.568843"], ["updated_at", "2017-01-26 18:33:35.568843"]]
+   (40.9ms)  commit transaction
+=> #<Rating:0x00558738fbbca0
+ id: 4,
+ score: 8,
+ beer_id: 15,
+ created_at: Thu, 26 Jan 2017 18:33:35 UTC +00:00,
+ updated_at: Thu, 26 Jan 2017 18:33:35 UTC +00:00>
+[12] pry(main)> olut.ratings.create score:6
+   (0.2ms)  begin transaction
+  SQL (0.5ms)  INSERT INTO "ratings" ("score", "beer_id", "created_at", "updated_at") VALUES (?, ?, ?, ?)  [["score", 6], ["beer_id", 15], ["created_at", "2017-01-26 18:33:46.754829"], ["updated_at", "2017-01-26 18:33:46.754829"]]
+   (44.3ms)  commit transaction
+=> #<Rating:0x00558738ee6c08
+ id: 5,
+ score: 6,
+ beer_id: 15,
+ created_at: Thu, 26 Jan 2017 18:33:46 UTC +00:00,
+ updated_at: Thu, 26 Jan 2017 18:33:46 UTC +00:00>
+[13] pry(main)> olut.ratings.create score:10
+   (0.2ms)  begin transaction
+  SQL (0.5ms)  INSERT INTO "ratings" ("score", "beer_id", "created_at", "updated_at") VALUES (?, ?, ?, ?)  [["score", 10], ["beer_id", 15], ["created_at", "2017-01-26 18:34:07.787124"], ["updated_at", "2017-01-26 18:34:07.787124"]]
+   (43.1ms)  commit transaction
+=> #<Rating:0x00558738e3cbb8
+ id: 6,
+ score: 10,
+ beer_id: 15,
+ created_at: Thu, 26 Jan 2017 18:34:07 UTC +00:00,
+ updated_at: Thu, 26 Jan 2017 18:34:07 UTC +00:00>
+[14] pry(main)> olut=Beer.find_by(name:"Punk")
+  Beer Load (0.4ms)  SELECT  "beers".* FROM "beers" WHERE "beers"."name" = ? LIMIT 1  [["name", "Punk"]]
+=> nil
+[15] pry(main)> olut=Beer.find_by(name:"Punk*")
+  Beer Load (0.3ms)  SELECT  "beers".* FROM "beers" WHERE "beers"."name" = ? LIMIT 1  [["name", "Punk*"]]
+=> nil
+[16] pry(main)> olut=Beer.find_by(name:"Punk Ipa")
+  Beer Load (0.2ms)  SELECT  "beers".* FROM "beers" WHERE "beers"."name" = ? LIMIT 1  [["name", "Punk Ipa"]]
+=> nil
+[17] pry(main)> olut=Beer.find_by(name:"Punk IPA")
+  Beer Load (0.3ms)  SELECT  "beers".* FROM "beers" WHERE "beers"."name" = ? LIMIT 1  [["name", "Punk IPA"]]
+=> #<Beer:0x00558738c04c38
+ id: 14,
+ name: "Punk IPA",
+ style: "IPA",
+ brewery_id: 5,
+ created_at: Thu, 26 Jan 2017 17:47:10 UTC +00:00,
+ updated_at: Thu, 26 Jan 2017 17:47:10 UTC +00:00>
+[18] pry(main)> olut.ratings.create score:10
+   (0.2ms)  begin transaction
+  SQL (1.4ms)  INSERT INTO "ratings" ("score", "beer_id", "created_at", "updated_at") VALUES (?, ?, ?, ?)  [["score", 10], ["beer_id", 14], ["created_at", "2017-01-26 18:36:29.776760"], ["updated_at", "2017-01-26 18:36:29.776760"]]
+   (46.4ms)  commit transaction
+=> #<Rating:0x0055873809fc80
+ id: 7,
+ score: 10,
+ beer_id: 14,
+ created_at: Thu, 26 Jan 2017 18:36:29 UTC +00:00,
+ updated_at: Thu, 26 Jan 2017 18:36:29 UTC +00:00>
+[19] pry(main)> olut.ratings.create score:11
+   (0.2ms)  begin transaction
+  SQL (0.4ms)  INSERT INTO "ratings" ("score", "beer_id", "created_at", "updated_at") VALUES (?, ?, ?, ?)  [["score", 11], ["beer_id", 14], ["created_at", "2017-01-26 18:36:33.811939"], ["updated_at", "2017-01-26 18:36:33.811939"]]
+   (45.9ms)  commit transaction
+=> #<Rating:0x00558737f26f20
+ id: 8,
+ score: 11,
+ beer_id: 14,
+ created_at: Thu, 26 Jan 2017 18:36:33 UTC +00:00,
+ updated_at: Thu, 26 Jan 2017 18:36:33 UTC +00:00>
+[20] pry(main)> olut.ratings.create score:9
+   (0.3ms)  begin transaction
+  SQL (0.5ms)  INSERT INTO "ratings" ("score", "beer_id", "created_at", "updated_at") VALUES (?, ?, ?, ?)  [["score", 9], ["beer_id", 14], ["created_at", "2017-01-26 18:36:39.765611"], ["updated_at", "2017-01-26 18:36:39.765611"]]
+   (47.9ms)  commit transaction
+=> #<Rating:0x00558737d60f60
+ id: 9,
+ score: 9,
+ beer_id: 14,
+ created_at: Thu, 26 Jan 2017 18:36:39 UTC +00:00,
+ updated_at: Thu, 26 Jan 2017 18:36:39 UTC +00:00>
+

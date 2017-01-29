@@ -7,6 +7,8 @@ gem 'rails', '4.2.7'
 #gem 'sqlite3'
 group :development, :test do
   gem 'sqlite3'
+  gem 'pry-rails'
+  gem "better_errors"
 end
 
 group :production do
