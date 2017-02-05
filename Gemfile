@@ -9,6 +9,7 @@ group :development, :test do
   gem 'sqlite3'
   gem 'pry-rails'
   gem "better_errors"
+  gem 'bcrypt', '~> 3.1.7'
 end
 
 group :production do

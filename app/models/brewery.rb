@@ -1,6 +1,11 @@
 class Brewery < ActiveRecord::Base
+include RatingAverage
 has_many :beers, dependent: :destroy
 has_many :ratings, through: :beers
+
+validates :year, numericality: { greater_than_or_equal_to: 1042, only_integer: true }
+validates :name, presence: true
+validate :year_cannot_be_in_the_future
 
   def print_report
     puts name
@@ -11,9 +16,9 @@ has_many :ratings, through: :beers
     self.year = 2017
     puts "changed year to #{year}"
   end
-  def average_rating
-    sum=self.ratings.pluck(:score).inject { |summa, n| summa + n }
-    sum=sum/ratings.count
-    palautettava="Has "+ ratings.count.to_s + " "+ 'rating'.pluralize(ratings.count) +", average " + sum.to_s
+  def year_cannot_be_in_the_future
+    if year > Time.now.year
+      errors.add(:year, "can't be in the future")
+    end
   end
 end
