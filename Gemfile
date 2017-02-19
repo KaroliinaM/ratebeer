@@ -11,6 +11,7 @@ group :development, :test do
   gem "better_errors"
   gem 'bcrypt', '~> 3.1.7'
   gem 'rspec-rails', '~> 3.5'
+  gem 'httparty'
 end
 
 group :production do
@@ -63,5 +64,6 @@ group :test do
   gem 'capybara'
   gem 'launchy'
   gem 'simplecov', require: false
+  gem 'webmock'
 end
 
