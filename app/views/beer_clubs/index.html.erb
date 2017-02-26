@@ -2,7 +2,7 @@
 
 <h1>Listing Beer Clubs</h1>
 
-<table>
+<table class="table">
   <thead>
     <tr>
       <th>Name</th>
@@ -19,8 +19,9 @@
         <td><%= beer_club.founded %></td>
         <td><%= beer_club.city %></td>
         <td><%= link_to 'Show', beer_club %></td>
-        <td><%= link_to 'Edit', edit_beer_club_path(beer_club) %></td>
-        <td><%= link_to 'Destroy', beer_club, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+<td><%= edit_and_destroy_buttons(beer_club)%></td>
+
+
       </tr>
     <% end %>
   </tbody>

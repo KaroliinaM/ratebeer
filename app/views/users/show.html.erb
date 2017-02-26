@@ -20,14 +20,23 @@ Member of
 <ul>
  <% @user.ratings.each do |rating| %>
    <li> <%= rating.to_s %>
+
    <% if @user == current_user %>  
      <%= link_to 'delete', rating_path(rating.id), method: :delete, data: { confirm: 'Are you sure?' } %> 
    <% end %>
    </li>
  <% end %>
 </ul>
+<% if current_user.admin %>
+<% if not @user.blocked %>
+<%= link_to "disable account", toggle_blocked_user_path(@user.id), method: :post, class: "btn btn-warning" %>
+<% else %>
+<%= link_to "enable account", toggle_blocked_user_path(@user.id), method: :post, class: "btn btn-warning" %>
+<% end %>
+<% end %>
  <% if @user == current_user %>
 <%= link_to 'Edit', edit_user_path(@user) %> |
 <%= link_to 'Destroy', @user, method: :delete, data: { confirm: 'Are you sure?' } %> |
 <% end %>
+  
 <%= link_to 'Back', users_path %>

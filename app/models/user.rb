@@ -30,4 +30,8 @@ include RatingAverage
   end
   #def favorite_brewery
   #end
+  def self.top(n)
+    rated_most=User.all.sort_by{|u| -(u.ratings.count)}
+    rated_most.take(n)
+  end
 end
