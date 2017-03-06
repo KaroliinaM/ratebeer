@@ -1,6 +1,6 @@
 class BeersController < ApplicationController
   before_action :skip_if_cached, only:[:index]
-  before_action :ensure_that_signed_in, except: [:index, :show, :list]
+  #before_action :ensure_that_signed_in, except: [:index, :show, :list]
   before_action :set_beer, only: [:show, :edit, :update, :destroy]
 
   def list
@@ -14,9 +14,32 @@ class BeersController < ApplicationController
     order=params[:order] || 'name'
 
     @beers=case @order
-      when 'name' then @beers.sort_by{|b| b.name}      
-      when 'brewery' then @beers.sort_by{|b| b.brewery.name}
-      when 'style' then @beers.sort_by{|b| b.style.name}
+      when 'name' then
+       if session[:clicks_n]==1
+          session[:clicks_n]=0
+          @beers.sort_by{|b| b.name}.reverse
+
+        else
+          session[:clicks_n]=1 
+          @beers.sort_by{|b| b.name}
+
+        end      
+      when 'brewery' then 
+       if session[:clicks_b]==1
+          session[:clicks_b]=0
+          @beers.sort_by{|b| b.brewery.name}.reverse
+        else
+          session[:clicks_b]=1
+          @beers.sort_by{|b| b.brewery.name}
+        end
+      when 'style' then 
+       if session[:clicks_b]==1
+          session[:clicks_b]=0
+          @beers.sort_by{|b| b.style.name}.reverse
+       else
+          session[:clicks_b]=1
+          @beers.sort_by{|b| b.style.name}
+       end
     end
   end
 
@@ -31,7 +54,7 @@ class BeersController < ApplicationController
   def new
     @beer = Beer.new
     @breweries=Brewery.all
-    @styles = ["Weizen", "Lager", "Pale ale", "IPA", "Porter"]
+    @styles = Style.all
   end
 
   # GET /beers/1/edit
@@ -52,7 +75,7 @@ class BeersController < ApplicationController
         format.json { render :show, status: :created, location: @beer }
       else
         @breweries = Brewery.all
-        @styles = ["Weizen", "Lager", "Pale ale", "IPA", "Porter"]
+        @styles = Style.all
         format.html { render :new }
         format.json { render json: @beer.errors, status: :unprocessable_entity }
       end

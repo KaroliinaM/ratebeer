@@ -3,6 +3,7 @@
 <tr>
 <th><%= link_to 'Name', breweries_path(order:"name") %></th>
 <th><%= link_to 'Year', breweries_path(order:"year") %></th>
+<th><%= link_to 'Beers', breweries_path(order:"beers") %></th>
 </tr>
 </thead>
 <tbody>
@@ -10,6 +11,7 @@
 <tr>
 <td><%=link_to brewery.name, brewery%></td>
 <td><%=brewery.year%></td>
+<td><%= brewery.beers.count %></td>
 <td><%= edit_and_destroy_buttons(brewery)%></td>
 </tr>
 <% end %>

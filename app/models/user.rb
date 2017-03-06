@@ -7,6 +7,7 @@ include RatingAverage
   has_many :memberships, dependent: :destroy
   has_many :beers, through: :ratings
   has_many :breweries, through: :beers
+  has_many :beer_clubs, through: :memberships
 
 
   def favorite_beer

@@ -5,6 +5,8 @@ class MembershipsController < ApplicationController
   # GET /memberships.json
   def index
     @memberships = Membership.all
+    @confirmed_memberships=Membership.where(confirmed:true)
+    @pending_memberships=Membership.where(confirmed:false)
   end
 
   # GET /memberships/1
@@ -28,7 +30,7 @@ class MembershipsController < ApplicationController
   def create
     @membership = Membership.new(membership_params)
     @membership.user_id = current_user.id
-
+    @membership.confirmed=false
 
     respond_to do |format|
       if @membership.save

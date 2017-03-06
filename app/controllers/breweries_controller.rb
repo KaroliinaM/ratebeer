@@ -14,11 +14,13 @@ class BreweriesController < ApplicationController
     @active_breweries= case order
       when 'name' then @active_breweries.sort_by{|b| b.name }
       when 'year' then @active_breweries.sort_by{|b| b.year }
+      when 'beers' then @active_breweries.sort_by{|b| b.beers.count }
     end
 
     @retired_breweries=case order
       when 'name' then @retired_breweries.sort_by{|b| b.name}
       when 'year' then @retired_breweries.sort_by{|b| b.year}
+      when 'beers' then @retired_breweries.sort_by{|b| b.beers.count}
     end 
   end
 
@@ -42,6 +44,7 @@ class BreweriesController < ApplicationController
   # POST /breweries
   # POST /breweries.json
   def create
+    expire_fragment('brewerylist')
     @brewery = Brewery.new(brewery_params)
 
     respond_to do |format|
@@ -57,7 +60,9 @@ class BreweriesController < ApplicationController
 
   # PATCH/PUT /breweries/1
   # PATCH/PUT /breweries/1.json
-  def update
+  def update    
+    expire_fragment('brewerylist')
+
     respond_to do |format|
       if @brewery.update(brewery_params)
         format.html { redirect_to @brewery, notice: 'Brewery was successfully updated.' }
@@ -72,6 +77,7 @@ class BreweriesController < ApplicationController
   # DELETE /breweries/1
   # DELETE /breweries/1.json
   def destroy
+    expire_fragment('brewerylist')
     if current_user.admin
     @brewery.destroy
     respond_to do |format|
