@@ -9,7 +9,7 @@ group :development, :test do
   gem 'sqlite3'
   gem 'pry-rails'
   gem "better_errors"
-  gem 'bcrypt', '~> 3.1.7'
+gem 'bcrypt'
   gem 'rspec-rails', '~> 3.5'
   gem 'httparty'
   gem 'jquery-turbolinks'
@@ -21,6 +21,7 @@ group :production do
    gem 'rails_12factor'
 end
 ruby '2.3.1'
+ # gem 'bcrypt', '~> 3.1.7'
 # Use SCSS for stylesheets
 gem 'sass-rails', '~> 5.0'
 # Use Uglifier as compressor for JavaScript assets
