@@ -12,6 +12,8 @@ group :development, :test do
   gem 'bcrypt', '~> 3.1.7'
   gem 'rspec-rails', '~> 3.5'
   gem 'httparty'
+  gem 'jquery-turbolinks'
+  gem 'rack-mini-profiler'
 end
 
 group :production do
@@ -66,5 +68,7 @@ group :test do
   gem 'launchy'
   gem 'simplecov', require: false
   gem 'webmock'
+  gem 'selenium-webdriver', '2.53.4'
+  gem 'database_cleaner'
 end
 
